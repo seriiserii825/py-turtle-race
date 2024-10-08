@@ -1,6 +1,11 @@
 import time
 import random
 from turtle import Turtle, Screen
+from rich import print
+from rich.panel import Panel
+
+from libs.screenSize import screenSize
+
 
 colors = ["red", "cyan", "yellow", "green", "blue", "purple"]
 colors_str = f"{', '.join(colors)}"
@@ -10,8 +15,10 @@ user_bet = input("Which turtle will win the race? Enter a color: ")
 race_on = False
 tim = Turtle()
 screen = Screen()
-screen_width = 800
-screen.setup(width=screen_width, height=400, startx=200, starty=200)
+# screen_width = screenSize().width
+screen_width = 3860
+screen_total_width = screen_width - 60
+screen.setup(width=screen_total_width, height=400, startx=20, starty=200)
 screen.title(f"Turtle colors: {colors_str}")
 if user_bet and user_bet in colors:
     race_on = True
@@ -27,7 +34,7 @@ for i in range(6):
     tim.penup()
     tim.speed(5)
     y = -100 + i * 40
-    start_x = -(screen_width / 2) + 20
+    start_x = -(screen_total_width / 2) + 20
     tim.goto(start_x, y)
     all_turtles.append(tim)
 
@@ -37,13 +44,13 @@ while race_on:
         if turtle.xcor() > (screen_width/2) - 20:
             winning_color = turtle.pencolor()
             if winning_color != user_bet:
-                message = f"You've lost! The {winning_color} turtle is the winner!";
+                message = f"[red]You've lost! The {winning_color} turtle is the winner!";
             else:
-                message = f"You've won! The {winning_color} turtle is the winner!";
+                message = f"[green]You've won! The {winning_color} turtle is the winner!";
             race_on = False
             time.sleep(1)
         rand_distance = random.randint(0, 20)
         turtle.forward(rand_distance)
 
 screen.bye()
-print(message)
+print(Panel(message))
