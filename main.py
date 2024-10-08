@@ -15,8 +15,12 @@ user_bet = input("Which turtle will win the race? Enter a color: ")
 race_on = False
 tim = Turtle()
 screen = Screen()
-# screen_width = screenSize().width
-screen_width = 3860
+screens = screenSize()
+if len(screens) > 1:
+    screen_width = screens[0].width + screens[1].width
+else:
+    screen_width = screens[0].width
+
 screen_total_width = screen_width - 60
 screen.setup(width=screen_total_width, height=400, startx=20, starty=200)
 screen.title(f"Turtle colors: {colors_str}")
